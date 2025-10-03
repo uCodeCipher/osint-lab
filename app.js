@@ -1,7 +1,26 @@
+/* =========================================================
+   OSINT & Google Dorking — Practice Quiz (single-question flow)
+   app.js — full file
+   ---------------------------------------------------------
+   - Εμφανίζει ΜΙΑ ερώτηση κάθε φορά
+   - Τυχαία σειρά ερωτήσεων
+   - Άμεσο feedback + αυτόματη μετάβαση στην επόμενη
+   - Start screen / Progress bar / Reset & Reshuffle
+   - Ελληνικές εκφωνήσεις, GDPR-safe
+   - Προσαρμόζεις εικόνες/links στα πεδία media.img / media.link
+   ========================================================= */
+
 /* =========================
-   QUIZ DATA (ίδιο με πριν)
-   ➜ Διατήρησα τις 13 ερωτήσεις όπως τις ορίσαμε.
-   ➜ Ανέβασε την εικόνα Q11 στο repo και βάλε το path στο media.img αν θέλεις inline εμφάνιση.
+   QUIZ DATA
+   - type: "mcq" ή "fill"
+   - question: εκφώνηση (ΕΛΛΗΝΙΚΑ)
+   - options: array για mcq
+   - answer: για mcq -> ακριβές string επιλογής,
+              για fill -> αποδεκτές απαντήσεις (array, case-insensitive)
+   - explanation: σύντομη εξήγηση
+   - media: optional { img, link, alt }
+     ➜ Αν θέλεις inline εικόνα, βάλε media.img (π.χ. "images/q11.jpg")
+     ➜ Τα Google Drive links κρατιούνται στο media.link για άνοιγμα σε νέα καρτέλα
 ========================= */
 const QUESTIONS = [
   // ---- ΠΟΛΛΑΠΛΗΣ ΕΠΙΛΟΓΗΣ ----
@@ -15,7 +34,7 @@ const QUESTIONS = [
       "Παράγεται μόνο από honeypots αυτομάτως."
     ],
     answer: "Ένδειξη πολλών αναφορών· χρειάζεται context.",
-    explanation: "Υψηλό score = πολλά reports από χρήστες/διαχειριστές· θέλει επιπλέον ανάλυση.",
+    explanation: "Υψηλό score = πολλά reports από χρήστες/διαχειριστές· θέλει επιπλέον ανάλυση."
   },
   {
     id: 4, type: "mcq",
@@ -27,7 +46,7 @@ const QUESTIONS = [
       "Χρησιμοποιείται μόνο για εικόνες."
     ],
     answer: "Φιλτράρει αποτελέσματα κατά επέκταση αρχείου.",
-    explanation: "Το filetype: ζητά αποτελέσματα π.χ. PDF, XLSX όπως τα έχει indexάρει η Google.",
+    explanation: "Το filetype: ζητά αποτελέσματα π.χ. PDF, XLSX όπως τα έχει indexάρει η Google."
   },
   {
     id: 5, type: "mcq",
@@ -39,7 +58,7 @@ const QUESTIONS = [
       "Σύστημα άδειας αναπαραγωγής εικόνας."
     ],
     answer: "Τεχνικά & περιγραφικά πεδία (timestamp/GPS).",
-    explanation: "EXIF = μεταδεδομένα χρόνου, ρυθμίσεων κάμερας και πιθανό GPS.",
+    explanation: "EXIF = μεταδεδομένα χρόνου, ρυθμίσεων κάμερας και πιθανό GPS."
   },
   {
     id: 7, type: "mcq",
@@ -51,7 +70,7 @@ const QUESTIONS = [
       "Είναι ειδικός για εικόνες."
     ],
     answer: "Περιορίζει αποτελέσματα σε συγκεκριμένο domain.",
-    explanation: "site: περιορίζει σε domain/subdomains, όχι πλήρη λίστα όλων των αρχείων.",
+    explanation: "site: περιορίζει σε domain/subdomains, όχι πλήρη λίστα όλων των αρχείων."
   },
   {
     id: 8, type: "mcq",
@@ -63,7 +82,7 @@ const QUESTIONS = [
       "Να κάνει απευθείας scanning και IP lists."
     ],
     answer: "Να συνοψίζει ευρήματα και να προτείνει άμυνες.",
-    explanation: "Χρήση για ανάλυση/triage/προτάσεις remediation — όχι επιθετικές ενέργειες.",
+    explanation: "Χρήση για ανάλυση/triage/προτάσεις remediation — όχι επιθετικές ενέργειες."
   },
   {
     id: 10, type: "mcq",
@@ -75,7 +94,7 @@ const QUESTIONS = [
       "Διαγράφει δεδομένα από βάσεις."
     ],
     answer: "Δείχνει αν email εμφανίστηκε σε διαρροές.",
-    explanation: "Σήμα για αλλαγή κωδικών και ενεργοποίηση MFA.",
+    explanation: "Σήμα για αλλαγή κωδικών και ενεργοποίηση MFA."
   },
 
   // ---- ΣΥΜΠΛΗΡΩΣΗΣ ----
@@ -83,7 +102,7 @@ const QUESTIONS = [
     id: 1, type: "fill",
     question: "Εντόπισε σελίδες «Ξέχασα τον κωδικό» που μπορεί να είναι εκτεθειμένες.",
     blanks: "_____:forgot _____:example.com",
-    answer: ["inurl site","inurl  site","inurl   site"],
+    answer: ["inurl site", "inurl  site", "inurl   site"],
     explanation: "inurl:forgot + site:example.com για περιορισμό στο domain."
   },
   {
@@ -97,7 +116,7 @@ const QUESTIONS = [
     id: 6, type: "fill",
     question: "Εντόπισε δημόσια αρχεία ρυθμίσεων Wi-Fi.",
     blanks: "filetype:_____ intitle: settings _______",
-    answer: ["config wifi","config  wifi","config   wifi"],
+    answer: ["config wifi", "config  wifi", "config   wifi"],
     explanation: "filetype:config + intitle:settings + λέξη-στόχος wifi."
   },
   {
@@ -113,12 +132,13 @@ const QUESTIONS = [
     id: 11, type: "fill",
     question: "Σε ποια πόλη τραβήχτηκε αυτή η φωτογραφία;",
     blanks: "Άφησε κενό: __________________",
-    answer: ["bangkok","μπανγκοκ","μπανγκόκ","bangkok / μπανγκοκ","bangkok / μΠΑΝΓΚΟΚ"],
+    answer: ["bangkok", "μπανγκοκ", "μπανγκόκ", "bangkok / μπανγκοκ", "bangkok / μΠΑΝΓΚΟΚ"],
     explanation: "Σωστή απάντηση: Bangkok / ΜΠΑΝΓΚΟΚ",
     media: {
-      // ➜ ΒΑΛΕ ΕΔΩ ΤΟ ΑΜΕΣΟ LINK ΕΙΚΟΝΑΣ (π.χ. "images/q11.jpg")
+      // ➜ Βάλε άμεσο path εικόνας από το repo σου, π.χ. "images/q11.jpg"
       img: "",
       alt: "Φωτογραφία για την ερώτηση 11",
+      // ➜ Κρατάμε και το Drive link για άνοιγμα σε νέα καρτέλα
       link: "https://drive.google.com/file/d/1FfKGW9QZOSSsXIr3DcDmi2gAy5KTUb3m/view?usp=sharing"
     }
   },
@@ -126,17 +146,22 @@ const QUESTIONS = [
     id: 12, type: "fill",
     question: "Βρες τον ιδιοκτήτη του domain.",
     blanks: "Άφησε κενό: __________________",
-    answer: ["open source initiative","open-source initiative","open source  initiative"],
+    answer: [
+      "open source initiative",
+      "open-source initiative",
+      "open source  initiative"
+    ],
     explanation: "Σωστή απάντηση: Open Source Initiative"
+    // ➜ Προαιρετικά: media.img / media.link για WHOIS/RDAP screenshot
   },
   {
     id: 13, type: "mcq",
     question: "The Double Agent — Αναλύοντας το ίχνος του υπόπτου (δες τις εικόνες πριν απαντήσεις).",
-    options: ["Mall","River","Temple","Nowhere"],
+    options: ["Mall", "River", "Temple", "Nowhere"],
     answer: "Temple",
     explanation: "Το σκηνικό αντιστοιχεί σε ναό.",
     media: {
-      // ➜ Ανέβασε τις εικόνες στο repo σου και βάλε link εδώ ή κράτα το Drive link:
+      // ➜ Βάλε link σε φάκελο εικόνων στο repo σου ή κράτησε το Drive link:
       link: "https://drive.google.com/drive/folders/1461UT6-E3bcxr5KBsjixqzGrw3MoLKgD?usp=sharing"
     }
   }
@@ -146,16 +171,21 @@ const QUESTIONS = [
    HELPERS
 ========================= */
 const $ = (id) => document.getElementById(id);
+
 function shuffle(arr){
   const a = arr.slice();
-  for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random() * (i+1));
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
+
 function normalise(s){
-  return (s||"").toString().trim().toLowerCase()
+  return (s || "")
+    .toString()
+    .trim()
+    .toLowerCase()
     .replaceAll("ά","α").replaceAll("έ","ε").replaceAll("ή","η")
     .replaceAll("ί","ι").replaceAll("ό","ο").replaceAll("ύ","υ").replaceAll("ώ","ω")
     .replaceAll("ϊ","ι").replaceAll("ΐ","ι").replaceAll("ϋ","υ").replaceAll("ΰ","υ");
@@ -164,7 +194,7 @@ function normalise(s){
 /* =========================
    STATE
 ========================= */
-let order = shuffle(QUESTIONS);
+let order = [];
 let idx = 0;
 let score = 0;
 
@@ -183,7 +213,7 @@ function renderQuestion(){
   // Badge
   const qid = document.createElement("div");
   qid.className = "qid";
-  qid.textContent = `Q${idx+1} / ${order.length}`;
+  qid.textContent = `Q${idx + 1} / ${order.length}`;
   card.appendChild(qid);
 
   // Text
@@ -192,20 +222,20 @@ function renderQuestion(){
   qtext.textContent = q.question;
   card.appendChild(qtext);
 
-  // Media
-  if(q.media && (q.media.img || q.media.link)){
+  // Optional media (εικόνα inline +/ή link)
+  if (q.media && (q.media.img || q.media.link)){
     const meta = document.createElement("div");
     meta.className = "meta";
-    if(q.media.img){
+    if (q.media.img){
       const wrap = document.createElement("div");
       wrap.className = "imgwrap";
       const im = document.createElement("img");
-      im.src = q.media.img; // ➜ Βάλε π.χ. "images/q11.jpg"
+      im.src = q.media.img;               // ➜ π.χ. "images/q11.jpg"
       im.alt = q.media.alt || "media";
       wrap.appendChild(im);
       card.appendChild(wrap);
     }
-    if(q.media.link){
+    if (q.media.link){
       const a = document.createElement("a");
       a.href = q.media.link; a.target = "_blank"; a.rel = "noopener";
       a.textContent = "Άνοιγμα συνδέσμου υλικού";
@@ -216,7 +246,7 @@ function renderQuestion(){
 
   // Inputs
   let inputArea;
-  if(q.type === "mcq"){
+  if (q.type === "mcq"){
     inputArea = document.createElement("div");
     inputArea.className = "options";
     shuffle(q.options).forEach((opt, i) => {
@@ -226,7 +256,7 @@ function renderQuestion(){
       label.innerHTML = `<input type="radio" name="q_${q.id}" id="${id}" value="${opt}"> ${opt}`;
       inputArea.appendChild(label);
     });
-  }else{
+  } else {
     inputArea = document.createElement("div");
     inputArea.className = "fill";
     const span = document.createElement("span");
@@ -263,34 +293,34 @@ function renderQuestion(){
   actions.appendChild(nextBtn);
   card.appendChild(actions);
 
-  // Add to stage
   stage.appendChild(card);
 
   // Submit handler
   submitBtn.addEventListener("click", () => {
     let ok = false;
-    if(q.type === "mcq"){
+
+    if (q.type === "mcq"){
       const chosen = card.querySelector('input[type="radio"]:checked');
       ok = !!(chosen && chosen.value === q.answer);
-    }else{
+    } else {
       const inp = card.querySelector('input[type="text"]');
-      if(inp){
+      if (inp){
         const val = normalise(inp.value);
-        if(Array.isArray(q.answer)){
+        if (Array.isArray(q.answer)){
           ok = q.answer.map(a => normalise(a)).includes(val);
-        }else{
+        } else {
           ok = (val === normalise(q.answer));
         }
       }
     }
 
     feedback.style.display = "block";
-    if(ok){
+    if (ok){
       feedback.className = "feedback ok";
       feedback.textContent = "Σωστό! " + (q.explanation ? "— " + q.explanation : "");
       score++;
       card.style.borderColor = "rgba(57,255,20,.45)";
-    }else{
+    } else {
       feedback.className = "feedback no";
       const showAns = (q.type === "mcq") ? q.answer : (Array.isArray(q.answer) ? q.answer[0] : q.answer);
       feedback.textContent = "Λάθος. Σωστό: " + showAns + (q.explanation ? " — " + q.explanation : "");
@@ -300,17 +330,18 @@ function renderQuestion(){
     submitBtn.disabled = true;
     nextBtn.disabled = false;
 
-    // Auto-advance μετά από λίγο
+    // Αυτόματη μετάβαση μετά από λίγο (μπορείς να αλλάξεις τα ms)
     setTimeout(() => {
       goNext();
     }, 1200);
-    updateProgress();
+
+    updateProgress(true); // ενημέρωση progress (προχωράει η μπάρα)
   });
 
-  // Next handler
+  // Next handler (χειροκίνητα)
   nextBtn.addEventListener("click", goNext);
 
-  // Progress labels
+  // Αρχικές ενδείξεις προόδου
   updateProgressLabels();
 }
 
@@ -318,11 +349,14 @@ function renderQuestion(){
    PROGRESS
 ========================= */
 function updateProgressLabels(){
-  $("progressLabel").textContent = `Ερώτηση ${idx+1}/${order.length}`;
+  $("progressLabel").textContent = `Ερώτηση ${idx + 1}/${order.length}`;
   $("scoreLabel").textContent = `Σωστά: ${score}`;
 }
-function updateProgress(){
-  const pct = Math.round(((idx+1)/order.length)*100);
+
+function updateProgress(afterSubmit = false){
+  // Αν μόλις υποβλήθηκε, θεωρούμε ότι "κλείδωσε" η ερώτηση
+  const current = afterSubmit ? idx + 1 : idx;
+  const pct = Math.round((current / order.length) * 100);
   $("progressBar").style.width = `${pct}%`;
   updateProgressLabels();
 }
@@ -332,9 +366,9 @@ function updateProgress(){
 ========================= */
 function goNext(){
   idx++;
-  if(idx < order.length){
+  if (idx < order.length){
     renderQuestion();
-  }else{
+  } else {
     showSummary();
   }
 }
@@ -342,6 +376,7 @@ function goNext(){
 function showSummary(){
   const stage = $("stage");
   stage.innerHTML = "";
+
   const card = document.createElement("article");
   card.className = "card";
 
@@ -363,6 +398,7 @@ function showSummary(){
   $("progressBar").style.width = "100%";
   $("progressLabel").textContent = `Ολοκληρώθηκε`;
   $("scoreLabel").textContent = `Σωστά: ${score}`;
+
   stage.appendChild(card);
 }
 
@@ -377,14 +413,24 @@ function resetAll(){
   renderQuestion();
 }
 
-$("reset").addEventListener("click", resetAll);
-$("reshuffle").addEventListener("click", () => {
+/* =========================
+   START SCREEN
+========================= */
+// ➜ Το index.html έχει #startScreen (οθόνη έναρξης) και #quizUI (UI του quiz)
+document.getElementById("startBtn").addEventListener("click", () => {
+  document.getElementById("startScreen").style.display = "none";
+  document.getElementById("quizUI").style.display = "block";
+  resetAll(); // ξεκινά το quiz
+});
+
+/* =========================
+   TOP CONTROLS
+========================= */
+document.getElementById("reset").addEventListener("click", resetAll);
+document.getElementById("reshuffle").addEventListener("click", () => {
   order = shuffle(QUESTIONS);
   idx = 0;
   score = 0;
   $("progressBar").style.width = "0%";
   renderQuestion();
 });
-
-// init
-renderQuestion();
