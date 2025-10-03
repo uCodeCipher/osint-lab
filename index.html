@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>OSINT & Google Dorking Quiz — Algorithmics</title>
+  <title>OSINT & Google Dorking — Practice Quiz</title>
   <meta name="description" content="Practice quiz for adults on OSINT & Google Dorking" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -17,32 +17,26 @@
       </div>
     </header>
 
-    <!-- Start Screen -->
+    <!-- Start Screen (μόνο κουμπί) -->
     <section id="startScreen" class="hero">
-      <p><strong>Καλώς ήρθες!</strong> Αυτό είναι το διαδραστικό quiz για OSINT & Google Dorking.</p>
-      <p>Πάτησε το κουμπί για να ξεκινήσεις.</p>
-      <button id="startBtn" class="btn-accent">Start</button>
+      <button id="startBtn" class="btn-accent">ΞΕΚΙΝΑ ΤΟ ΚΟΥΙΖ</button>
     </section>
 
-    <!-- Quiz UI (εμφανίζεται ΜΟΝΟ μετά το Start) -->
+    <!-- Quiz UI (εμφανίζεται μετά το Start) -->
     <section id="quizUI" style="display:none;">
       <section class="hero">
-        <div id="progressWrap" style="margin-top:14px;">
+        <!-- Πρόοδος χωρίς σκορ -->
+        <div id="progressWrap" style="margin-top:4px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
             <span id="progressLabel" class="subtitle">Ερώτηση 1/—</span>
-            <span id="scoreLabel" class="subtitle">Σωστά: 0</span>
           </div>
           <div style="height:10px;background:#1a1a1a;border:1px solid #232323;border-radius:999px;overflow:hidden;">
             <div id="progressBar" style="height:100%;width:0%;background:linear-gradient(90deg,#00BFFF,#0284c7);"></div>
           </div>
         </div>
-
-        <div class="controls" style="margin-top:14px;">
-          <button id="reshuffle">Ανακάτεμα ερωτήσεων</button>
-          <button id="reset" class="btn-secondary">Επαναφορά</button>
-        </div>
       </section>
 
+      <!-- Μία ερώτηση κάθε φορά -->
       <section id="stage"></section>
     </section>
 
