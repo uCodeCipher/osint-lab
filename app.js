@@ -1,24 +1,15 @@
 /* =========================================================
    OSINT & Google Dorking — Practice Quiz (single-question flow)
-   Απαιτήσεις:
+   app.js — updated with inline image for Q13 and edit for Q12
    - Μία ερώτηση κάθε φορά
    - Προχωρά ΜΟΝΟ όταν η απάντηση είναι σωστή
    - Αν είναι λάθος: μήνυμα "Προσπάθησε ξανά." και μένουμε στην ίδια ερώτηση
    - Χωρίς σκορ
    - Start screen με κουμπί "ΞΕΚΙΝΑ ΤΟ ΚΟΥΙΖ"
-   - Χωρίς κουμπιά ανακάτεμα/επανάληψης
    ========================================================= */
 
 /* =========================
    QUIZ DATA
-   - type: "mcq" ή "fill"
-   - question: εκφώνηση (ΕΛΛΗΝΙΚΑ)
-   - options: array για mcq
-   - answer: για mcq -> ακριβές string, για fill -> αποδεκτές απαντήσεις (array, case-insensitive)
-   - explanation: σύντομη εξήγηση (προαιρετική)
-   - media: { img, link, alt } (προαιρετικό)
-     ➜ Για inline εικόνα, βάλε media.img (π.χ. "images/q11.jpg")
-     ➜ Τα Google Drive links κρατιούνται σε media.link
 ========================= */
 const QUESTIONS = [
   // ---- ΠΟΛΛΑΠΛΗΣ ΕΠΙΛΟΓΗΣ ----
@@ -133,32 +124,37 @@ const QUESTIONS = [
     answer: ["bangkok", "μπανγκοκ", "μπανγκόκ", "bangkok / μπανγκοκ", "bangkok / μΠΑΝΓΚΟΚ"],
     explanation: "Σωστή απάντηση: Bangkok / ΜΠΑΝΓΚΟΚ",
     media: {
-      // ➜ Βάλε άμεσο path εικόνας από το repo σου, π.χ. "images/q11.jpg"
-      img: "",
+      // ΑΛΛΑΞΕ ΑΝ ΘΕΛΕΙΣ: εάν ανέβασες την εικόνα με άλλο όνομα, ενημέρωσε το path
+      img: "images/q13.png",
       alt: "Φωτογραφία για την ερώτηση 11",
-      // ➜ Drive link για αναφορά
       link: "https://drive.google.com/file/d/1FfKGW9QZOSSsXIr3DcDmi2gAy5KTUb3m/view?usp=sharing"
     }
   },
   {
     id: 12, type: "fill",
-    question: "Βρες τον ιδιοκτήτη του domain.",
-    blanks: "Άφησε κενό: __________________",
+    question: "Βρες τον ιδιοκτήτη του domain opensource.org.",
+    // blanks = "" -> δεν θα εμφανιστεί κείμενο οδηγίας, μόνο το κουτάκι απάντησης
+    blanks: "",
     answer: [
       "open source initiative",
       "open-source initiative",
-      "open source  initiative"
+      "open source  initiative",
+      "opensource initiative"
     ],
     explanation: "Σωστή απάντηση: Open Source Initiative"
   },
   {
     id: 13, type: "mcq",
     question: "The Double Agent — Αναλύοντας το ίχνος του υπόπτου (δες τις εικόνες πριν απαντήσεις).",
+    // Κάτω από την εκφώνηση θα εμφανιστεί το παρακάτω κείμενο (χωρίς bold)
+    preface: "Έχουμε λάβει πληροφορίες ότι ένας από τους πράκτορές μας στο πεδίο μπορεί να έχει γίνει αδίστακτος. Υπάρχουν αυξανόμενες υποψίες ότι ενεργεί ως διπλός πράκτορας, εργαζόμενος και για τις δύο πλευρές. Έχουμε μόνο μία φωτογραφία του προσώπου του υπόπτου, αλλά βρήκαμε και τρεις φωτογραφίες από την προσωπική του συσκευή. Η αποστολή σας είναι να αναλύσετε αυτές τις φωτογραφίες και να αποκαλύψετε τα ίχνη του.",
     options: ["Mall", "River", "Temple", "Nowhere"],
     answer: "Temple",
     explanation: "Το σκηνικό αντιστοιχεί σε ναό.",
     media: {
-      // ➜ Βάλε link σε φάκελο εικόνων στο repo σου ή κράτησε το Drive link:
+      // <-- αυτή είναι η εικόνα που μου έστειλες — ανέβασε το αρχείο στο repo στο path images/q13.png
+      img: "images/q13.png",
+      alt: "Υπόπτος — εικόνα από προσωπική συσκευή",
       link: "https://drive.google.com/drive/folders/1461UT6-E3bcxr5KBsjixqzGrw3MoLKgD?usp=sharing"
     }
   }
@@ -218,7 +214,16 @@ function renderQuestion(){
   qtext.textContent = q.question;
   card.appendChild(qtext);
 
-  // Optional media
+  // If the question has a 'preface' (longer instruction paragraph), show it as plain text (not bold)
+  if(q.preface){
+    const p = document.createElement("div");
+    p.className = "meta"; // reuse meta styling (muted)
+    p.style.marginTop = "8px";
+    p.textContent = q.preface;
+    card.appendChild(p);
+  }
+
+  // Optional media (εικόνα inline +/ή link)
   if (q.media && (q.media.img || q.media.link)){
     const meta = document.createElement("div");
     meta.className = "meta";
@@ -226,7 +231,7 @@ function renderQuestion(){
       const wrap = document.createElement("div");
       wrap.className = "imgwrap";
       const im = document.createElement("img");
-      im.src = q.media.img;               // ➜ π.χ. "images/q11.jpg"
+      im.src = q.media.img;
       im.alt = q.media.alt || "media";
       wrap.appendChild(im);
       card.appendChild(wrap);
@@ -255,13 +260,16 @@ function renderQuestion(){
   } else {
     inputArea = document.createElement("div");
     inputArea.className = "fill";
-    const span = document.createElement("span");
-    span.textContent = q.blanks;
+    // Show blanks text only if it is non-empty
+    if (q.blanks && q.blanks.trim().length > 0){
+      const span = document.createElement("span");
+      span.textContent = q.blanks;
+      inputArea.appendChild(span);
+    }
     const input = document.createElement("input");
     input.type = "text";
     input.placeholder = "Γράψε την απάντηση…";
     input.name = `q_${q.id}_fill`;
-    inputArea.appendChild(span);
     inputArea.appendChild(input);
   }
   card.appendChild(inputArea);
@@ -306,13 +314,12 @@ function renderQuestion(){
     if (ok){
       feedback.className = "feedback ok";
       feedback.textContent = "Σωστό!";
-      // μικρή καθυστέρηση για να διαβαστεί το μήνυμα
+      // Προχωράμε στην επόμενη μετά μικρή καθυστέρηση
       setTimeout(() => goNext(), 600);
       updateProgress(true);
     } else {
       feedback.className = "feedback no";
       feedback.textContent = "Λάθος. Προσπάθησε ξανά.";
-      // Μένουμε στην ίδια ερώτηση — δεν απενεργοποιούμε το submit
       updateProgress(false);
     }
   });
@@ -375,14 +382,13 @@ function startQuiz(){
 }
 
 /* =========================
-   START SCREEN
+   START SCREEN (DOM ready)
 ========================= */
 window.addEventListener("DOMContentLoaded", () => {
   const startBtn = document.getElementById("startBtn");
   startBtn.addEventListener("click", () => {
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("quizUI").style.display = "block";
-    startQuiz(); // αρχικοποιεί και δείχνει την πρώτη ερώτηση
+    startQuiz();
   });
 });
-
