@@ -198,4 +198,53 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
   // background init
   initBackground();
+
+   /* =========================
+   INTERACTIVE BACKGROUND
+========================= */
+function initBackground(){
+  // 1) Subtle animated glow on canvas
+  const canvas = document.getElementById("bg-canvas");
+  const ctx = canvas.getContext("2d");
+  function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener("resize", resize); resize();
+
+  let t = 0;
+  function loop(){
+    t += 0.005;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const cx = canvas.width * (0.5 + 0.15*Math.sin(t*1.3));
+    const cy = canvas.height * (0.6 + 0.15*Math.cos(t*1.1));
+    const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(canvas.width, canvas.height)*0.5);
+    grd.addColorStop(0, "rgba(96,43,123,0.18)");   // brand glow
+    grd.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = grd;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  // 2) Floating icons / hashtags
+  const container = document.getElementById("floaties");
+  const symbols = ["#OSINT","🔒","🔥","🛰️","#dorks","🛡️","💡","📡","⚙️","#security"];
+  function spawn(){
+    const el = document.createElement("div");
+    el.className = "floaty";
+    el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    const left = Math.random()*100; // vw
+    const delay = Math.random()*0.5;
+    const duration = 8 + Math.random()*7; // 8–15s
+    el.style.left = left + "vw";
+    el.style.animationDuration = duration + "s";
+    el.style.animationDelay = delay + "s";
+    container.appendChild(el);
+    // cleanup όταν τελειώσει
+    setTimeout(()=> el.remove(), (duration+1)*1000);
+  }
+  // spawn αρχικά και επαναληπτικά
+  for(let i=0;i<10;i++) spawn();
+  setInterval(spawn, 1500);
+}
+
+   
 });
