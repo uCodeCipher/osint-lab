@@ -1,11 +1,9 @@
 /* =========================================================
    OSINT & Google Dorking — Practice Quiz (single-question flow)
-   app.js — updated with inline image for Q13 and edit for Q12
-   - Μία ερώτηση κάθε φορά
-   - Προχωρά ΜΟΝΟ όταν η απάντηση είναι σωστή
-   - Αν είναι λάθος: μήνυμα "Προσπάθησε ξανά." και μένουμε στην ίδια ερώτηση
-   - Χωρίς σκορ
-   - Start screen με κουμπί "ΞΕΚΙΝΑ ΤΟ ΚΟΥΙΖ"
+   app.js — updated per request:
+   - Q11: removed blanks helper text and removed alt label
+   - Q13: use images/q3.png, added sentence "Πού βρέθηκαν τα ίχνη του;"
+   - Start screen DOMContentLoaded wrapper included
    ========================================================= */
 
 /* =========================
@@ -120,20 +118,19 @@ const QUESTIONS = [
   {
     id: 11, type: "fill",
     question: "Σε ποια πόλη τραβήχτηκε αυτή η φωτογραφία;",
-    blanks: "Άφησε κενό: __________________",
+    // removed the "Άφησε κενό..." helper text and alt label as requested
+    blanks: "",
     answer: ["bangkok", "μπανγκοκ", "μπανγκόκ", "bangkok / μπανγκοκ", "bangkok / μΠΑΝΓΚΟΚ"],
     explanation: "Σωστή απάντηση: Bangkok / ΜΠΑΝΓΚΟΚ",
     media: {
-      // ΑΛΛΑΞΕ ΑΝ ΘΕΛΕΙΣ: εάν ανέβασες την εικόνα με άλλο όνομα, ενημέρωσε το path
-      img: "images/q13.png",
-      alt: "Φωτογραφία για την ερώτηση 11",
+      // εάν έχεις ανέβασμα, άλλαξε σε αυτό το path ή ανέβασε το αρχείο images/q11.png
+      img: "images/q11.png",
       link: "https://drive.google.com/file/d/1FfKGW9QZOSSsXIr3DcDmi2gAy5KTUb3m/view?usp=sharing"
     }
   },
   {
     id: 12, type: "fill",
     question: "Βρες τον ιδιοκτήτη του domain opensource.org.",
-    // blanks = "" -> δεν θα εμφανιστεί κείμενο οδηγίας, μόνο το κουτάκι απάντησης
     blanks: "",
     answer: [
       "open source initiative",
@@ -146,14 +143,14 @@ const QUESTIONS = [
   {
     id: 13, type: "mcq",
     question: "The Double Agent — Αναλύοντας το ίχνος του υπόπτου (δες τις εικόνες πριν απαντήσεις).",
-    // Κάτω από την εκφώνηση θα εμφανιστεί το παρακάτω κείμενο (χωρίς bold)
-    preface: "Έχουμε λάβει πληροφορίες ότι ένας από τους πράκτορές μας στο πεδίο μπορεί να έχει γίνει αδίστακτος. Υπάρχουν αυξανόμενες υποψίες ότι ενεργεί ως διπλός πράκτορας, εργαζόμενος και για τις δύο πλευρές. Έχουμε μόνο μία φωτογραφία του προσώπου του υπόπτου, αλλά βρήκαμε και τρεις φωτογραφίες από την προσωπική του συσκευή. Η αποστολή σας είναι να αναλύσετε αυτές τις φωτογραφίες και να αποκαλύψετε τα ίχνη του.",
+    // appended sentence as requested
+    preface: "Έχουμε λάβει πληροφορίες ότι ένας από τους πράκτορές μας στο πεδίο μπορεί να έχει γίνει αδίστακτος. Υπάρχουν αυξανόμενες υποψίες ότι ενεργεί ως διπλός πράκτορας, εργαζόμενος και για τις δύο πλευρές. Έχουμε μόνο μία φωτογραφία του προσώπου του υπόπτου, αλλά βρήκαμε και τρεις φωτογραφίες από την προσωπική του συσκευή. Η αποστολή σας είναι να αναλύσετε αυτές τις φωτογραφίες και να αποκαλύψετε τα ίχνη του. Πού βρέθηκαν τα ίχνη του;",
     options: ["Mall", "River", "Temple", "Nowhere"],
     answer: "Temple",
     explanation: "Το σκηνικό αντιστοιχεί σε ναό.",
     media: {
-      // <-- αυτή είναι η εικόνα που μου έστειλες — ανέβασε το αρχείο στο repo στο path images/q13.png
-      img: "images/q13.png",
+      // βάλε εδώ το image file που θέλεις. ο χρήστης ανέφερε q3.png → το βάζω ως default
+      img: "images/q3.png",
       alt: "Υπόπτος — εικόνα από προσωπική συσκευή",
       link: "https://drive.google.com/drive/folders/1461UT6-E3bcxr5KBsjixqzGrw3MoLKgD?usp=sharing"
     }
@@ -232,7 +229,7 @@ function renderQuestion(){
       wrap.className = "imgwrap";
       const im = document.createElement("img");
       im.src = q.media.img;
-      im.alt = q.media.alt || "media";
+      im.alt = q.media.alt || "";
       wrap.appendChild(im);
       card.appendChild(wrap);
     }
@@ -362,7 +359,7 @@ function showSummary(){
 
   const qtext = document.createElement("div");
   qtext.className = "qtext";
-  qtext.textContent = "Συγχαρητήρια! Ολοκλήρωσες το quiz.";
+  qtext.textContent = "Συγχαρητήρια! Ολοκληρώσατε το quiz.";
   card.appendChild(qtext);
 
   $("progressBar").style.width = "100%";
