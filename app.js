@@ -1,17 +1,10 @@
 /* =========================
-   QUIZ DATA
-   - type: "mcq" ή "fill"
-   - question: εκφώνηση (ΕΛΛΗΝΙΚΑ)
-   - options: array για mcq
-   - answer: για mcq -> το ακριβές string επιλογής, για fill -> αποδεκτές απαντήσεις (array, case-insensitive)
-   - explanation: σύντομη εξήγηση
-   - media: optional { img, link, alt }
-     ➜ Αν θέλεις να εμφανιστεί εικόνα μέσα στην κάρτα, βάλε media.img
-     ➜ Για Google Drive, προτίμησε να κατεβάσεις/ανεβάσεις στο repo (π.χ. /images/q11.jpg)
+   QUIZ DATA (ίδιο με πριν)
+   ➜ Διατήρησα τις 13 ερωτήσεις όπως τις ορίσαμε.
+   ➜ Ανέβασε την εικόνα Q11 στο repo και βάλε το path στο media.img αν θέλεις inline εμφάνιση.
 ========================= */
-
 const QUESTIONS = [
-  /* ---- ΠΟΛΛΑΠΛΗΣ ΕΠΙΛΟΓΗΣ ---- */
+  // ---- ΠΟΛΛΑΠΛΗΣ ΕΠΙΛΟΓΗΣ ----
   {
     id: 2, type: "mcq",
     question: "Τι σημαίνει πρακτικά ένα υψηλό score/Count στο AbuseIPDB;",
@@ -85,12 +78,12 @@ const QUESTIONS = [
     explanation: "Σήμα για αλλαγή κωδικών και ενεργοποίηση MFA.",
   },
 
-  /* ---- ΣΥΜΠΛΗΡΩΣΗΣ ---- */
+  // ---- ΣΥΜΠΛΗΡΩΣΗΣ ----
   {
     id: 1, type: "fill",
     question: "Εντόπισε σελίδες «Ξέχασα τον κωδικό» που μπορεί να είναι εκτεθειμένες.",
     blanks: "_____:forgot _____:example.com",
-    answer: ["inurl site", "inurl  site", "inurl   site"],
+    answer: ["inurl site","inurl  site","inurl   site"],
     explanation: "inurl:forgot + site:example.com για περιορισμό στο domain."
   },
   {
@@ -104,7 +97,7 @@ const QUESTIONS = [
     id: 6, type: "fill",
     question: "Εντόπισε δημόσια αρχεία ρυθμίσεων Wi-Fi.",
     blanks: "filetype:_____ intitle: settings _______",
-    answer: ["config wifi", "config  wifi", "config   wifi"],
+    answer: ["config wifi","config  wifi","config   wifi"],
     explanation: "filetype:config + intitle:settings + λέξη-στόχος wifi."
   },
   {
@@ -115,17 +108,16 @@ const QUESTIONS = [
     explanation: "Συνδυασμός admin + login σε URL paths."
   },
 
-  /* ---- ΝΕΕΣ 11-13 ---- */
+  // ---- ΝΕΕΣ 11-13 ----
   {
     id: 11, type: "fill",
     question: "Σε ποια πόλη τραβήχτηκε αυτή η φωτογραφία;",
     blanks: "Άφησε κενό: __________________",
-    answer: ["bangkok", "μπανγκοκ", "μπανγκόκ", "bangkok / μπανγκοκ", "bangkok / μΠΑΝΓΚΟΚ"],
+    answer: ["bangkok","μπανγκοκ","μπανγκόκ","bangkok / μπανγκοκ","bangkok / μΠΑΝΓΚΟΚ"],
     explanation: "Σωστή απάντηση: Bangkok / ΜΠΑΝΓΚΟΚ",
     media: {
-      /* ➜ ΒΑΛΕ ΕΔΩ ΤΟ ΑΜΕΣΟ LINK ΕΙΚΟΝΑΣ (όχι το Google Drive viewer).
-         Ιδανικά: /images/q11.jpg στο ίδιο repo. */
-      img: "", // π.χ. "images/q11.jpg"
+      // ➜ ΒΑΛΕ ΕΔΩ ΤΟ ΑΜΕΣΟ LINK ΕΙΚΟΝΑΣ (π.χ. "images/q11.jpg")
+      img: "",
       alt: "Φωτογραφία για την ερώτηση 11",
       link: "https://drive.google.com/file/d/1FfKGW9QZOSSsXIr3DcDmi2gAy5KTUb3m/view?usp=sharing"
     }
@@ -134,14 +126,8 @@ const QUESTIONS = [
     id: 12, type: "fill",
     question: "Βρες τον ιδιοκτήτη του domain.",
     blanks: "Άφησε κενό: __________________",
-    answer: [
-      "open source initiative",
-      "οpen source initiative",
-      "open-source initiative",
-      "open source  initiative"
-    ],
+    answer: ["open source initiative","open-source initiative","open source  initiative"],
     explanation: "Σωστή απάντηση: Open Source Initiative"
-    /* ➜ TIP: Μπορείς να βάλεις media.link με WHOIS/RDAP screenshot */
   },
   {
     id: 13, type: "mcq",
@@ -150,7 +136,7 @@ const QUESTIONS = [
     answer: "Temple",
     explanation: "Το σκηνικό αντιστοιχεί σε ναό.",
     media: {
-      /* ➜ Βάλε εδώ ένα link στο φάκελο εικόνων. Ιδανικά ανέβασέ τες στο repo. */
+      // ➜ Ανέβασε τις εικόνες στο repo σου και βάλε link εδώ ή κράτα το Drive link:
       link: "https://drive.google.com/drive/folders/1461UT6-E3bcxr5KBsjixqzGrw3MoLKgD?usp=sharing"
     }
   }
@@ -159,8 +145,7 @@ const QUESTIONS = [
 /* =========================
    HELPERS
 ========================= */
-const byId = (id) => document.getElementById(id);
-
+const $ = (id) => document.getElementById(id);
 function shuffle(arr){
   const a = arr.slice();
   for(let i=a.length-1;i>0;i--){
@@ -169,7 +154,6 @@ function shuffle(arr){
   }
   return a;
 }
-
 function normalise(s){
   return (s||"").toString().trim().toLowerCase()
     .replaceAll("ά","α").replaceAll("έ","ε").replaceAll("ή","η")
@@ -178,98 +162,116 @@ function normalise(s){
 }
 
 /* =========================
-   RENDER
+   STATE
 ========================= */
-let renderOrder = shuffle(QUESTIONS);
-
-function renderAll(){
-  const grid = byId("quiz");
-  grid.innerHTML = "";
-  renderOrder.forEach((q, idx) => {
-    const card = document.createElement("article");
-    card.className = "card";
-    card.dataset.qid = q.id;
-
-    const qid = document.createElement("div");
-    qid.className = "qid";
-    qid.textContent = `Q${idx+1}`;
-    card.appendChild(qid);
-
-    const qtext = document.createElement("div");
-    qtext.className = "qtext";
-    qtext.textContent = q.question;
-    card.appendChild(qtext);
-
-    // Optional media
-    if(q.media && (q.media.img || q.media.link)){
-      const meta = document.createElement("div");
-      meta.className = "meta";
-      if(q.media.img){
-        const wrap = document.createElement("div");
-        wrap.className = "imgwrap";
-        const im = document.createElement("img");
-        im.src = q.media.img; // ➜ Βάλε εδώ το δικό σου path (π.χ. images/q11.jpg)
-        im.alt = q.media.alt || "media";
-        wrap.appendChild(im);
-        card.appendChild(wrap);
-      }
-      if(q.media.link){
-        const a = document.createElement("a");
-        a.href = q.media.link; a.target = "_blank"; a.rel = "noopener";
-        a.textContent = "Άνοιγμα συνδέσμου υλικού";
-        meta.appendChild(a);
-      }
-      card.appendChild(meta);
-    }
-
-    if(q.type === "mcq"){
-      const opts = document.createElement("div");
-      opts.className = "options";
-      shuffle(q.options).forEach((opt, i) => {
-        const label = document.createElement("label");
-        label.className = "opt";
-        const id = `q${q.id}_opt${i}`;
-        label.innerHTML = `<input type="radio" name="q_${q.id}" id="${id}" value="${opt}"> ${opt}`;
-        opts.appendChild(label);
-      });
-      card.appendChild(opts);
-    }else if(q.type === "fill"){
-      const fill = document.createElement("div");
-      fill.className = "fill";
-      const span = document.createElement("span");
-      span.textContent = q.blanks;
-      const input = document.createElement("input");
-      input.type = "text";
-      input.placeholder = "Γράψε την απάντηση…";
-      input.name = `q_${q.id}_fill`;
-      fill.appendChild(span);
-      fill.appendChild(input);
-      card.appendChild(fill);
-    }
-
-    const feedback = document.createElement("div");
-    feedback.className = "feedback";
-    card.appendChild(feedback);
-
-    grid.appendChild(card);
-  });
-}
-
-renderAll();
+let order = shuffle(QUESTIONS);
+let idx = 0;
+let score = 0;
 
 /* =========================
-   CHECK & RESET
+   RENDER ONE QUESTION
 ========================= */
-function checkAll(){
-  let correctCount = 0;
-  renderOrder.forEach(q => {
-    const card = document.querySelector(`.card[data-qid="${q.id}"]`);
-    const feedback = card.querySelector(".feedback");
-    let ok = false;
+function renderQuestion(){
+  const q = order[idx];
+  const stage = $("stage");
+  stage.innerHTML = ""; // clear
 
+  const card = document.createElement("article");
+  card.className = "card";
+  card.dataset.qid = q.id;
+
+  // Badge
+  const qid = document.createElement("div");
+  qid.className = "qid";
+  qid.textContent = `Q${idx+1} / ${order.length}`;
+  card.appendChild(qid);
+
+  // Text
+  const qtext = document.createElement("div");
+  qtext.className = "qtext";
+  qtext.textContent = q.question;
+  card.appendChild(qtext);
+
+  // Media
+  if(q.media && (q.media.img || q.media.link)){
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    if(q.media.img){
+      const wrap = document.createElement("div");
+      wrap.className = "imgwrap";
+      const im = document.createElement("img");
+      im.src = q.media.img; // ➜ Βάλε π.χ. "images/q11.jpg"
+      im.alt = q.media.alt || "media";
+      wrap.appendChild(im);
+      card.appendChild(wrap);
+    }
+    if(q.media.link){
+      const a = document.createElement("a");
+      a.href = q.media.link; a.target = "_blank"; a.rel = "noopener";
+      a.textContent = "Άνοιγμα συνδέσμου υλικού";
+      meta.appendChild(a);
+    }
+    card.appendChild(meta);
+  }
+
+  // Inputs
+  let inputArea;
+  if(q.type === "mcq"){
+    inputArea = document.createElement("div");
+    inputArea.className = "options";
+    shuffle(q.options).forEach((opt, i) => {
+      const label = document.createElement("label");
+      label.className = "opt";
+      const id = `q${q.id}_opt${i}`;
+      label.innerHTML = `<input type="radio" name="q_${q.id}" id="${id}" value="${opt}"> ${opt}`;
+      inputArea.appendChild(label);
+    });
+  }else{
+    inputArea = document.createElement("div");
+    inputArea.className = "fill";
+    const span = document.createElement("span");
+    span.textContent = q.blanks;
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Γράψε την απάντηση…";
+    input.name = `q_${q.id}_fill`;
+    inputArea.appendChild(span);
+    inputArea.appendChild(input);
+  }
+  card.appendChild(inputArea);
+
+  // Feedback + actions
+  const feedback = document.createElement("div");
+  feedback.className = "feedback";
+  card.appendChild(feedback);
+
+  const actions = document.createElement("div");
+  actions.style.display = "flex";
+  actions.style.gap = "10px";
+  actions.style.marginTop = "12px";
+
+  const submitBtn = document.createElement("button");
+  submitBtn.textContent = "Υποβολή";
+  submitBtn.className = "btn-accent";
+
+  const nextBtn = document.createElement("button");
+  nextBtn.textContent = "Επόμενη";
+  nextBtn.className = "btn-secondary";
+  nextBtn.disabled = true;
+
+  actions.appendChild(submitBtn);
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  // Add to stage
+  stage.appendChild(card);
+
+  // Submit handler
+  submitBtn.addEventListener("click", () => {
+    let ok = false;
     if(q.type === "mcq"){
       const chosen = card.querySelector('input[type="radio"]:checked');
-      if(chosen && chosen.value === q.answer){ ok = true; }
+      ok = !!(chosen && chosen.value === q.answer);
     }else{
       const inp = card.querySelector('input[type="text"]');
       if(inp){
@@ -286,7 +288,7 @@ function checkAll(){
     if(ok){
       feedback.className = "feedback ok";
       feedback.textContent = "Σωστό! " + (q.explanation ? "— " + q.explanation : "");
-      correctCount++;
+      score++;
       card.style.borderColor = "rgba(57,255,20,.45)";
     }else{
       feedback.className = "feedback no";
@@ -294,34 +296,95 @@ function checkAll(){
       feedback.textContent = "Λάθος. Σωστό: " + showAns + (q.explanation ? " — " + q.explanation : "");
       card.style.borderColor = "rgba(255,49,49,.45)";
     }
+
+    submitBtn.disabled = true;
+    nextBtn.disabled = false;
+
+    // Auto-advance μετά από λίγο
+    setTimeout(() => {
+      goNext();
+    }, 1200);
+    updateProgress();
   });
 
-  // Toast-like summary
-  const summary = document.createElement("div");
-  summary.textContent = `Σύνολο σωστών: ${correctCount} / ${renderOrder.length}`;
-  summary.style.position = "fixed";
-  summary.style.right = "16px";
-  summary.style.bottom = "16px";
-  summary.style.padding = "10px 14px";
-  summary.style.background = "#101010";
-  summary.style.border = "1px solid #2b2b2b";
-  summary.style.borderRadius = "10px";
-  summary.style.boxShadow = "0 8px 20px rgba(0,0,0,.35)";
-  document.body.appendChild(summary);
-  setTimeout(()=> summary.remove(), 2600);
-}
+  // Next handler
+  nextBtn.addEventListener("click", goNext);
 
-function resetAll(){
-  renderAll();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  // Progress labels
+  updateProgressLabels();
 }
 
 /* =========================
-   EVENTS
+   PROGRESS
 ========================= */
-document.getElementById("checkAll").addEventListener("click", checkAll);
-document.getElementById("reset").addEventListener("click", resetAll);
-document.getElementById("reshuffle").addEventListener("click", () => {
-  renderOrder = shuffle(QUESTIONS);
-  resetAll();
+function updateProgressLabels(){
+  $("progressLabel").textContent = `Ερώτηση ${idx+1}/${order.length}`;
+  $("scoreLabel").textContent = `Σωστά: ${score}`;
+}
+function updateProgress(){
+  const pct = Math.round(((idx+1)/order.length)*100);
+  $("progressBar").style.width = `${pct}%`;
+  updateProgressLabels();
+}
+
+/* =========================
+   FLOW
+========================= */
+function goNext(){
+  idx++;
+  if(idx < order.length){
+    renderQuestion();
+  }else{
+    showSummary();
+  }
+}
+
+function showSummary(){
+  const stage = $("stage");
+  stage.innerHTML = "";
+  const card = document.createElement("article");
+  card.className = "card";
+
+  const qtext = document.createElement("div");
+  qtext.className = "qtext";
+  qtext.textContent = "Τέλος Quiz!";
+  card.appendChild(qtext);
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  meta.textContent = `Σύνολο σωστών: ${score} / ${order.length}`;
+  card.appendChild(meta);
+
+  const again = document.createElement("button");
+  again.textContent = "Παίξε ξανά";
+  again.addEventListener("click", resetAll);
+  card.appendChild(again);
+
+  $("progressBar").style.width = "100%";
+  $("progressLabel").textContent = `Ολοκληρώθηκε`;
+  $("scoreLabel").textContent = `Σωστά: ${score}`;
+  stage.appendChild(card);
+}
+
+/* =========================
+   RESET & INIT
+========================= */
+function resetAll(){
+  order = shuffle(QUESTIONS);
+  idx = 0;
+  score = 0;
+  $("progressBar").style.width = "0%";
+  renderQuestion();
+}
+
+$("reset").addEventListener("click", resetAll);
+$("reshuffle").addEventListener("click", () => {
+  order = shuffle(QUESTIONS);
+  idx = 0;
+  score = 0;
+  $("progressBar").style.width = "0%";
+  renderQuestion();
 });
+
+// init
+renderQuestion();
