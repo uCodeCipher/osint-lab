@@ -8,6 +8,12 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Interactive background layer -->
+  <div id="bg-layer" aria-hidden="true">
+    <canvas id="bg-canvas"></canvas>
+    <div id="floaties"></div>
+  </div>
+
   <div class="wrap">
     <header>
       <div class="logo" aria-hidden="true"></div>
@@ -15,33 +21,38 @@
         <h1>OSINT & Google Dorking — Practice Quiz</h1>
         <div class="subtitle">Algorithmics Academy • Adult learners</div>
       </div>
+
+      <!-- Powered by (top-right) -->
+      <div class="powered">
+        <!-- Βάλε το λογότυπό σου στο images/logo.png ή άλλαξε το src -->
+        <img src="images/logo.png" alt="Algorithmics Academy" class="powered-logo" />
+        <span>Powered by <strong>Algorithmics Academy</strong></span>
+      </div>
     </header>
 
-    <!-- Start Screen (μόνο κουμπί) -->
+    <!-- Start Screen -->
     <section id="startScreen" class="hero">
       <button id="startBtn" class="btn-accent">ΞΕΚΙΝΑ ΤΟ ΚΟΥΙΖ</button>
     </section>
 
-    <!-- Quiz UI (εμφανίζεται μετά το Start) -->
+    <!-- Quiz UI -->
     <section id="quizUI" style="display:none;">
       <section class="hero">
-        <!-- Πρόοδος χωρίς σκορ -->
         <div id="progressWrap" style="margin-top:4px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
             <span id="progressLabel" class="subtitle">Ερώτηση 1/—</span>
           </div>
-          <div style="height:10px;background:#1a1a1a;border:1px solid #232323;border-radius:999px;overflow:hidden;">
-            <div id="progressBar" style="height:100%;width:0%;background:linear-gradient(90deg,#00BFFF,#0284c7);"></div>
+          <div class="progress-rail">
+            <div id="progressBar" class="progress-bar"></div>
           </div>
         </div>
       </section>
 
-      <!-- Μία ερώτηση κάθε φορά -->
       <section id="stage"></section>
     </section>
 
     <footer>
-      The more you know… the less control they have over you.
+      © 2025 Algorithmics Academy. Building Future Skills
     </footer>
   </div>
 
