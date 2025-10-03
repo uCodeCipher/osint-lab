@@ -377,8 +377,12 @@ function startQuiz(){
 /* =========================
    START SCREEN
 ========================= */
-document.getElementById("startBtn").addEventListener("click", () => {
-  document.getElementById("startScreen").style.display = "none";
-  document.getElementById("quizUI").style.display = "block";
-  startQuiz();
+window.addEventListener("DOMContentLoaded", () => {
+  const startBtn = document.getElementById("startBtn");
+  startBtn.addEventListener("click", () => {
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("quizUI").style.display = "block";
+    startQuiz(); // αρχικοποιεί και δείχνει την πρώτη ερώτηση
+  });
 });
+
