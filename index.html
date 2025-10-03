@@ -18,22 +18,34 @@
     </header>
 
     <section class="hero">
-      <p><strong>Οδηγίες:</strong> Οι ερωτήσεις εμφανίζονται σε τυχαία σειρά. Απάντησε και πάτησε «Έλεγχος όλων» για να δεις το feedback.</p>
+      <p><strong>Οδηγίες:</strong> Μία ερώτηση κάθε φορά. Απάντησε, δες feedback, και προχωράς στην επόμενη.</p>
       <div class="notice">
         ⚠️ Ηθική & GDPR: <em>Δεν κάνουμε harvesting. Δεν προβαίνουμε σε probing/scanning.</em>
         Χρησιμοποιούμε μόνο εκπαιδευτικά παραδείγματα και δικά μας/παρεχόμενα δεδομένα.
       </div>
-      <div class="controls">
-        <button id="checkAll" class="btn-accent">Έλεγχος όλων</button>
+
+      <!-- Progress -->
+      <div id="progressWrap" style="margin-top:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span id="progressLabel" class="subtitle">Ερώτηση 1/—</span>
+          <span id="scoreLabel" class="subtitle">Σωστά: 0</span>
+        </div>
+        <div style="height:10px;background:#1a1a1a;border:1px solid #232323;border-radius:999px;overflow:hidden;">
+          <div id="progressBar" style="height:100%;width:0%;background:linear-gradient(90deg,#00BFFF,#0284c7);"></div>
+        </div>
+      </div>
+
+      <div class="controls" style="margin-top:14px;">
+        <button id="reshuffle">Ανακάτεμα ερωτήσεων</button>
         <button id="reset" class="btn-secondary">Επαναφορά</button>
-        <button id="reshuffle" class="">Ανακάτεμα ερωτήσεων</button>
       </div>
     </section>
 
-    <section id="quiz" class="grid"></section>
+    <!-- Single-question container -->
+    <section id="stage"></section>
 
     <footer>
-      Φτιαγμένο με 💜 (Algorithmics Purple) & cyber αισθητική.
+      The more you know… the less control they have over you.
       <!-- Μπορείς να αλλάξεις χρώματα από τις CSS variables στο style.css -->
     </footer>
   </div>
