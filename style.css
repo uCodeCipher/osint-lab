@@ -1,14 +1,14 @@
-/* ============= THEME (Algorithmics + Cyber) ============= */
+/* ============= THEME ============= */
 :root{
-  --bg: #0d0d0d;            /* very dark background */
-  --card: #141414;          /* card background */
-  --text: #e8e8f0;          /* main text */
-  --muted: #a9a9b2;         /* secondary text */
-  --brand: #602b7b;         /* Algorithmics purple */
-  --accent: #00BFFF;        /* cyber blue */
-  --good: #39FF14;          /* neon green */
-  --bad:  #FF3131;          /* alert red */
-  --border: #232323;        /* subtle borders */
+  --bg: #0d0d0d;
+  --card: #141414;
+  --text: #f2f3f7;
+  --muted: #c5c6d0;
+  --brand: #602b7b;
+  --accent: #00BFFF;
+  --good: #39FF14;
+  --bad:  #FF3131;
+  --border: #232323;
   --shadow: 0 10px 30px rgba(0,0,0,.45);
   --radius: 18px;
 }
@@ -18,34 +18,36 @@ html,body{
   margin:0; padding:0;
   background:var(--bg); color:var(--text);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
 }
 a{ color:var(--accent); text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
 /* ============= INTERACTIVE BACKGROUND LAYER ============= */
 #bg-layer{
-  position: fixed; inset: 0; z-index: 0; pointer-events:none;
+  position: fixed; inset: 0; z-index: -1;   /* Πίσω από το UI */
+  pointer-events:none;
   background:
-    radial-gradient(1200px 600px at 10% 110%, rgba(96,43,123,.18), transparent 60%),
-    radial-gradient(900px 500px at 110% -10%, rgba(0,191,255,.12), transparent 60%),
+    radial-gradient(1200px 600px at 10% 110%, rgba(96,43,123,.12), transparent 60%),
+    radial-gradient(900px 500px at 110% -10%, rgba(0,191,255,.08), transparent 60%),
     #0d0d0d;
 }
 #bg-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 #floaties{ position:absolute; inset:0; overflow:hidden; }
 
-/* Floating icons/hashtags */
+/* Floating icons */
 .floaty{
   position:absolute; bottom:-40px;
-  font-weight:700; color:rgba(232,232,240,.9);
-  text-shadow: 0 6px 20px rgba(0,0,0,.55);
+  font-weight:700; color:rgba(232,232,240,.85);
+  text-shadow: 0 6px 16px rgba(0,0,0,.45);
   animation: rise linear forwards;
   pointer-events:none; user-select:none;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.35));
 }
 @keyframes rise{
-  0%{ transform: translateY(0) rotate(0deg); opacity:.0; font-size:12px; }
+  0%{ transform: translate(0,0) rotate(0deg); opacity:.0; font-size:12px; }
   10%{ opacity:.9; }
-  100%{ transform: translateY(-115vh) rotate(12deg); opacity:0; font-size:18px; }
+  100%{ transform: translate(var(--drift,0px), -115vh) rotate(12deg); opacity:0; font-size:18px; }
 }
 
 /* Put app content above background */
@@ -58,12 +60,11 @@ header{
   padding:16px 0 6px 0; border-bottom:1px solid var(--border);
 }
 .logo{
-  width:44px; height:44px; border-radius:12px; background:
-    radial-gradient(120px 60px at 15% 15%, #8347a3 0%, rgba(131,71,163,0.0) 60%),
-    linear-gradient(180deg, #6f3288, #4a1f64);
+  width:44px; height:44px; border-radius:12px;
+  background: linear-gradient(180deg, #6f3288, #4a1f64);
   box-shadow: inset 0 0 0 2px rgba(255,255,255,0.06), var(--shadow);
 }
-h1{ font-size:1.6rem; margin:0; letter-spacing:.2px; }
+h1{ font-size:1.6rem; margin:0; color:#fafbff; }
 .subtitle{ color:var(--muted); margin-top:4px; font-size:.95rem; }
 
 /* Top-right "Powered by" */
@@ -94,7 +95,7 @@ h1{ font-size:1.6rem; margin:0; letter-spacing:.2px; }
   height:10px; background:#1a1a1a;
   border:1px solid var(--border); border-radius:999px; overflow:hidden;
 }
-.progress-bar{ height:100%; width:0%; background:linear-gradient(90deg,#00BFFF,#0284c7); }
+.progress-bar{ height:100%; width:0%; background:linear-gradient(90deg,#04b0ff,#3ac3ff); }
 
 /* ============= BUTTONS ============= */
 button{
@@ -106,17 +107,19 @@ button{
 }
 button:hover{ filter: brightness(1.08); }
 button:active{ transform: translateY(1px); }
-.btn-secondary{ background: linear-gradient(180deg, #1f1f1f, #161616); color:#e9e9e9; }
 .btn-accent{ background: linear-gradient(180deg, #00BFFF, #0284c7); }
 
 /* ============= CARD / QUESTION UI ============= */
-#stage{ display:block; }
+#startScreen.hero{
+  display:grid; place-items:center;
+  min-height:38vh;
+}
 .card{
   background: var(--card);
   border:1px solid var(--border);
   border-radius:var(--radius);
   box-shadow: var(--shadow);
-  padding:16px 16px 14px 16px;
+  padding:16px;
   position:relative;
 }
 .qid{
@@ -135,7 +138,7 @@ button:active{ transform: translateY(1px); }
   background:#181818; transition: border-color .15s ease, background .15s ease;
 }
 .opt:hover{ border-color:#2c2c2c; background:#1c1c1c; }
-.opt input{ margin-right:10px; transform: translateY(1px); }
+.opt input{ margin-right:10px; }
 
 .fill{
   display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:10px;
@@ -161,9 +164,9 @@ footer{
   margin:28px 0 18px 0; color:var(--muted); font-size:.9rem; text-align:left;
 }
 
-/* ============= RESPONSIVE TWEAKS ============= */
+/* ============= RESPONSIVE ============= */
 @media (max-width: 640px){
   h1{ font-size:1.25rem; }
-  .powered{ position:static; align-self:flex-start; margin-top:8px; }
+  .powered{ position:static; margin-top:8px; }
   header{ flex-direction:column; align-items:flex-start; gap:10px; }
 }
