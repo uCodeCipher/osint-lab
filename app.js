@@ -1,13 +1,12 @@
 /* =========================================================
    OSINT & Google Dorking — Practice Quiz (single-question flow)
-   app.js — full file
-   ---------------------------------------------------------
-   - Εμφανίζει ΜΙΑ ερώτηση κάθε φορά
-   - Τυχαία σειρά ερωτήσεων
-   - Άμεσο feedback + αυτόματη μετάβαση στην επόμενη
-   - Start screen / Progress bar / Reset & Reshuffle
-   - Ελληνικές εκφωνήσεις, GDPR-safe
-   - Προσαρμόζεις εικόνες/links στα πεδία media.img / media.link
+   Απαιτήσεις:
+   - Μία ερώτηση κάθε φορά
+   - Προχωρά ΜΟΝΟ όταν η απάντηση είναι σωστή
+   - Αν είναι λάθος: μήνυμα "Προσπάθησε ξανά." και μένουμε στην ίδια ερώτηση
+   - Χωρίς σκορ
+   - Start screen με κουμπί "ΞΕΚΙΝΑ ΤΟ ΚΟΥΙΖ"
+   - Χωρίς κουμπιά ανακάτεμα/επανάληψης
    ========================================================= */
 
 /* =========================
@@ -15,12 +14,11 @@
    - type: "mcq" ή "fill"
    - question: εκφώνηση (ΕΛΛΗΝΙΚΑ)
    - options: array για mcq
-   - answer: για mcq -> ακριβές string επιλογής,
-              για fill -> αποδεκτές απαντήσεις (array, case-insensitive)
-   - explanation: σύντομη εξήγηση
-   - media: optional { img, link, alt }
-     ➜ Αν θέλεις inline εικόνα, βάλε media.img (π.χ. "images/q11.jpg")
-     ➜ Τα Google Drive links κρατιούνται στο media.link για άνοιγμα σε νέα καρτέλα
+   - answer: για mcq -> ακριβές string, για fill -> αποδεκτές απαντήσεις (array, case-insensitive)
+   - explanation: σύντομη εξήγηση (προαιρετική)
+   - media: { img, link, alt } (προαιρετικό)
+     ➜ Για inline εικόνα, βάλε media.img (π.χ. "images/q11.jpg")
+     ➜ Τα Google Drive links κρατιούνται σε media.link
 ========================= */
 const QUESTIONS = [
   // ---- ΠΟΛΛΑΠΛΗΣ ΕΠΙΛΟΓΗΣ ----
@@ -138,7 +136,7 @@ const QUESTIONS = [
       // ➜ Βάλε άμεσο path εικόνας από το repo σου, π.χ. "images/q11.jpg"
       img: "",
       alt: "Φωτογραφία για την ερώτηση 11",
-      // ➜ Κρατάμε και το Drive link για άνοιγμα σε νέα καρτέλα
+      // ➜ Drive link για αναφορά
       link: "https://drive.google.com/file/d/1FfKGW9QZOSSsXIr3DcDmi2gAy5KTUb3m/view?usp=sharing"
     }
   },
@@ -152,7 +150,6 @@ const QUESTIONS = [
       "open source  initiative"
     ],
     explanation: "Σωστή απάντηση: Open Source Initiative"
-    // ➜ Προαιρετικά: media.img / media.link για WHOIS/RDAP screenshot
   },
   {
     id: 13, type: "mcq",
@@ -196,7 +193,6 @@ function normalise(s){
 ========================= */
 let order = [];
 let idx = 0;
-let score = 0;
 
 /* =========================
    RENDER ONE QUESTION
@@ -222,7 +218,7 @@ function renderQuestion(){
   qtext.textContent = q.question;
   card.appendChild(qtext);
 
-  // Optional media (εικόνα inline +/ή link)
+  // Optional media
   if (q.media && (q.media.img || q.media.link)){
     const meta = document.createElement("div");
     meta.className = "meta";
@@ -270,7 +266,7 @@ function renderQuestion(){
   }
   card.appendChild(inputArea);
 
-  // Feedback + actions
+  // Feedback + Submit (μόνο Submit — προχωρά ΜΟΝΟ όταν είναι σωστό)
   const feedback = document.createElement("div");
   feedback.className = "feedback";
   card.appendChild(feedback);
@@ -283,19 +279,11 @@ function renderQuestion(){
   const submitBtn = document.createElement("button");
   submitBtn.textContent = "Υποβολή";
   submitBtn.className = "btn-accent";
-
-  const nextBtn = document.createElement("button");
-  nextBtn.textContent = "Επόμενη";
-  nextBtn.className = "btn-secondary";
-  nextBtn.disabled = true;
-
   actions.appendChild(submitBtn);
-  actions.appendChild(nextBtn);
   card.appendChild(actions);
 
   stage.appendChild(card);
 
-  // Submit handler
   submitBtn.addEventListener("click", () => {
     let ok = false;
 
@@ -317,44 +305,29 @@ function renderQuestion(){
     feedback.style.display = "block";
     if (ok){
       feedback.className = "feedback ok";
-      feedback.textContent = "Σωστό! " + (q.explanation ? "— " + q.explanation : "");
-      score++;
-      card.style.borderColor = "rgba(57,255,20,.45)";
+      feedback.textContent = "Σωστό!";
+      // μικρή καθυστέρηση για να διαβαστεί το μήνυμα
+      setTimeout(() => goNext(), 600);
+      updateProgress(true);
     } else {
       feedback.className = "feedback no";
-      const showAns = (q.type === "mcq") ? q.answer : (Array.isArray(q.answer) ? q.answer[0] : q.answer);
-      feedback.textContent = "Λάθος. Σωστό: " + showAns + (q.explanation ? " — " + q.explanation : "");
-      card.style.borderColor = "rgba(255,49,49,.45)";
+      feedback.textContent = "Λάθος. Προσπάθησε ξανά.";
+      // Μένουμε στην ίδια ερώτηση — δεν απενεργοποιούμε το submit
+      updateProgress(false);
     }
-
-    submitBtn.disabled = true;
-    nextBtn.disabled = false;
-
-    // Αυτόματη μετάβαση μετά από λίγο (μπορείς να αλλάξεις τα ms)
-    setTimeout(() => {
-      goNext();
-    }, 1200);
-
-    updateProgress(true); // ενημέρωση progress (προχωράει η μπάρα)
   });
-
-  // Next handler (χειροκίνητα)
-  nextBtn.addEventListener("click", goNext);
 
   // Αρχικές ενδείξεις προόδου
   updateProgressLabels();
 }
 
 /* =========================
-   PROGRESS
+   PROGRESS (χωρίς σκορ)
 ========================= */
 function updateProgressLabels(){
   $("progressLabel").textContent = `Ερώτηση ${idx + 1}/${order.length}`;
-  $("scoreLabel").textContent = `Σωστά: ${score}`;
 }
-
 function updateProgress(afterSubmit = false){
-  // Αν μόλις υποβλήθηκε, θεωρούμε ότι "κλείδωσε" η ερώτηση
   const current = afterSubmit ? idx + 1 : idx;
   const pct = Math.round((current / order.length) * 100);
   $("progressBar").style.width = `${pct}%`;
@@ -382,22 +355,11 @@ function showSummary(){
 
   const qtext = document.createElement("div");
   qtext.className = "qtext";
-  qtext.textContent = "Τέλος Quiz!";
+  qtext.textContent = "Συγχαρητήρια! Ολοκλήρωσες το quiz.";
   card.appendChild(qtext);
-
-  const meta = document.createElement("div");
-  meta.className = "meta";
-  meta.textContent = `Σύνολο σωστών: ${score} / ${order.length}`;
-  card.appendChild(meta);
-
-  const again = document.createElement("button");
-  again.textContent = "Παίξε ξανά";
-  again.addEventListener("click", resetAll);
-  card.appendChild(again);
 
   $("progressBar").style.width = "100%";
   $("progressLabel").textContent = `Ολοκληρώθηκε`;
-  $("scoreLabel").textContent = `Σωστά: ${score}`;
 
   stage.appendChild(card);
 }
@@ -405,10 +367,9 @@ function showSummary(){
 /* =========================
    RESET & INIT
 ========================= */
-function resetAll(){
+function startQuiz(){
   order = shuffle(QUESTIONS);
   idx = 0;
-  score = 0;
   $("progressBar").style.width = "0%";
   renderQuestion();
 }
@@ -416,21 +377,8 @@ function resetAll(){
 /* =========================
    START SCREEN
 ========================= */
-// ➜ Το index.html έχει #startScreen (οθόνη έναρξης) και #quizUI (UI του quiz)
 document.getElementById("startBtn").addEventListener("click", () => {
   document.getElementById("startScreen").style.display = "none";
   document.getElementById("quizUI").style.display = "block";
-  resetAll(); // ξεκινά το quiz
-});
-
-/* =========================
-   TOP CONTROLS
-========================= */
-document.getElementById("reset").addEventListener("click", resetAll);
-document.getElementById("reshuffle").addEventListener("click", () => {
-  order = shuffle(QUESTIONS);
-  idx = 0;
-  score = 0;
-  $("progressBar").style.width = "0%";
-  renderQuestion();
+  startQuiz();
 });
