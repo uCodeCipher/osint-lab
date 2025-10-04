@@ -13,24 +13,32 @@
   --radius: 18px;
 }
 
+/* Global reset helpers */
 *{ box-sizing:border-box; }
 html,body{
   margin:0; padding:0;
   background:var(--bg); color:var(--text);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 a{ color:var(--accent); text-decoration:none; }
 a:hover{ text-decoration:underline; }
+/* 🚫 Καμία εικόνα δεν «ξεχειλώνει» εκτός container */
+img{ max-width:100%; height:auto; display:block; }
 
 /* ============= INTERACTIVE BACKGROUND ============= */
+/* ΠΑΝΩ από το body, ΚΑΤΩ από το περιεχόμενο — καλύπτει όλο το site */
 #bg-layer{
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   background:
+    /* επάνω glows */
     radial-gradient(900px 500px at -10% -10%, rgba(96,43,123,.12), transparent 60%),
     radial-gradient(900px 500px at 110% -10%, rgba(0,191,255,.10), transparent 60%),
+    /* κάτω glows */
     radial-gradient(1200px 600px at 10% 110%, rgba(96,43,123,.12), transparent 60%),
     radial-gradient(1100px 600px at 110% 110%, rgba(0,191,255,.08), transparent 60%),
     #0d0d0d;
@@ -53,6 +61,7 @@ a:hover{ text-decoration:underline; }
   100%{ transform: translate(var(--drift,0px), -115vh) rotate(12deg); opacity:0; font-size:18px; }
 }
 
+/* Το περιεχόμενο πάντα πάνω από το background layer */
 .wrap{
   position: relative;
   z-index: 1;
@@ -65,24 +74,26 @@ header{
   display:flex; align-items:center; gap:18px;
   padding:16px 0 6px 0; border-bottom:1px solid var(--border);
 }
+
+/* ✅ LOGO: δείξε πραγματικό logo, όχι μωβ gradient */
 .logo{
-  width:48px;
-  height:48px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;           /* ❗ κόβει τυχόν μεγάλο logo */
-}
-.logo img{
-  width:100%;
-  height:auto;
-  max-height:48px;           /* ❗ περιορίζει το ύψος */
-  object-fit:contain;
+  width:48px; height:48px;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;                 /* κόβει οτιδήποτε μεγαλύτερο */
+  background:none !important;      /* αφαιρεί τυχόν παλιό gradient */
   border-radius:8px;
 }
+.logo img{
+  width:100%; height:100%;
+  max-width:48px; max-height:48px; /* σκληρό όριο */
+  object-fit:contain;
+}
+
+/* Τίτλοι */
 h1{ font-size:1.6rem; margin:0; color:#fafbff; }
 .subtitle{ color:var(--muted); margin-top:4px; font-size:.95rem; }
 
+/* Powered by (top-right) */
 .powered{
   position:absolute; right:0; top:6px;
   display:flex; align-items:center; gap:8px;
@@ -106,10 +117,12 @@ h1{ font-size:1.6rem; margin:0; color:#fafbff; }
     var(--card);
   box-shadow: var(--shadow);
 }
+/* Start screen κεντραρισμένο */
 #startScreen.hero{
   display:grid; place-items:center;
   min-height:38vh;
 }
+
 .progress-rail{
   height:10px; background:#1a1a1a;
   border:1px solid var(--border); border-radius:999px; overflow:hidden;
@@ -169,11 +182,16 @@ button:active{ transform: translateY(1px); }
 .ok{ color: var(--good); }
 .no{ color: var(--bad); }
 
+/* Εικόνες ερωτήσεων — έλεγχος ύψους για να μην καταπίνουν τη σελίδα */
 .imgwrap{
   margin-top:10px; border-radius:12px; overflow:hidden;
   border:1px solid var(--border); background:#0f0f0f;
 }
-.imgwrap img{ display:block; width:100%; height:auto; }
+.imgwrap img{
+  width:100%; height:auto; display:block;
+  max-height:62vh;            /* ❗ ποτέ πάνω από ~62% του ορατού ύψους */
+  object-fit:contain;
+}
 
 /* ============= FOOTER ============= */
 footer{
@@ -185,4 +203,8 @@ footer{
   h1{ font-size:1.25rem; }
   .powered{ position:static; margin-top:8px; }
   header{ flex-direction:column; align-items:flex-start; gap:10px; }
+
+  /* Λίγο μικρότερο logo σε πολύ στενές οθόνες */
+  .logo{ width:40px; height:40px; }
+  .logo img{ max-width:40px; max-height:40px; }
 }
