@@ -141,15 +141,8 @@ window.QUESTIONS = [
       alt: "",
       link: "https://drive.google.com/drive/folders/1461UT6-E3bcxr5KBsjixqzGrw3MoLKgD?usp=sharing"
     },
-    supplemental: `Οδηγίες ανάλυσης εικόνων — βήματα (σύντομο cheat-sheet):
-1. EXIF / Metadata: Έλεγξε αν οι εικόνες περιέχουν EXIF (timestamp, device model, GPS). Κατέγραψε κάθε στοιχείο χρόνου/συσκευής.
-2. Reverse Image Search: Εκτέλεσε αναζήτηση εικόνας (Google / TinEye) για να βρεις αν οι εικόνες εμφανίζονται αλλού (μέσα σε άρθρα, κοινωνικά δίκτυα, forums).
-3. Visual Cues: Σημείωσε εμφανή στοιχεία (πινακίδες, αρχιτεκτονικά μοτίβα, ρούχα, φυτοχρωμία, φωτισμό) που μπορούν να υποδείξουν περιβάλλον.
-4. Comparative Forensics: Σύγκρινε τις φωτογραφίες μεταξύ τους — κοινά σημεία υποδεικνύουν τοπικές λεπτομέρειες.
-5. Cross-check OSINT: Συνδύασε τα ευρήματα με web searches και social profiles.
-6. Confidence & Next Steps: Βάλε βαθμολογία confidence (High/Medium/Low) και πρότεινε follow-ups αν χρειάζεται.
+    
 
-Σύντομη υπενθύμιση δεοντολογίας: Μην εκτελείτε παράνομες ενέργειες· καταγράψτε ευρήματα, προτείνετε νόμιμες διερευνήσεις και διαφυλάξτε αποδεικτικά.`
   }
 ];
 
