@@ -1,7 +1,7 @@
 /* =========================
    QUIZ QUESTIONS (13) - updated
 ========================= */
-const QUESTIONS = [
+window.QUESTIONS = [
   // ---- ΣΥΜΠΛΗΡΩΣΗΣ ----
   {
     id: 1, type: "fill",
