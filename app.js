@@ -205,7 +205,7 @@ function showSummary(){
 
   const qtext = document.createElement("div");
   qtext.className = "qtext";
-  qtext.textContent = "Συγχαρητήρια! Ολοκλήρωσες το quiz.";
+  qtext.innerHTML = "Συγχαρητήρια!<br><span style='font-style:italic; color:#00BFFF;'>“Οι απειλές εξελίσσονται. Εξέλιξέ κι εσύ τον εαυτό σου.”</span>";
   card.appendChild(qtext);
 
   $("progressBar").style.width = "100%";
