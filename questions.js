@@ -146,4 +146,4 @@ window.QUESTIONS = [
   }
 ];
 
-export default QUESTIONS;
+
