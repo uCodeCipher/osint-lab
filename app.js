@@ -218,10 +218,21 @@ function showSummary(){
    START
 ========================= */
 function startQuiz(){
-  // Χρησιμοποιεί το QUESTIONS από το questions.js
-  order = shuffle(QUESTIONS);
+  const Q = Array.isArray(window.QUESTIONS) ? window.QUESTIONS : [];
+  if (!Q.length){
+    const stage = document.getElementById("stage");
+    stage.innerHTML = `
+      <article class="card">
+        <div class="qtext">Δεν βρέθηκαν ερωτήσεις.</div>
+        <div class="meta">Έλεγξε ότι το <strong>questions.js</strong> φορτώνεται πριν από το <strong>app.js</strong> 
+        και ότι δεν υπάρχει συντακτικό λάθος μέσα στο αρχείο.</div>
+      </article>`;
+    document.getElementById("progressLabel").textContent = "Ερώτηση 0/0";
+    return;
+  }
+  order = Q.slice().sort(()=>Math.random()-0.5);
   idx = 0;
-  $("progressBar").style.width = "0%";
+  document.getElementById("progressBar").style.width = "0%";
   renderQuestion();
 }
 
