@@ -22,19 +22,22 @@ html,body{
 a{ color:var(--accent); text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
-/* ============= INTERACTIVE BACKGROUND LAYER ============= */
+/* ============= INTERACTIVE BACKGROUND ============= */
 #bg-layer{
-  position: fixed; inset: 0; z-index: -1;   /* Πίσω από το UI */
-  pointer-events:none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background:
+    radial-gradient(900px 500px at -10% -10%, rgba(96,43,123,.12), transparent 60%),
+    radial-gradient(900px 500px at 110% -10%, rgba(0,191,255,.10), transparent 60%),
     radial-gradient(1200px 600px at 10% 110%, rgba(96,43,123,.12), transparent 60%),
-    radial-gradient(900px 500px at 110% -10%, rgba(0,191,255,.08), transparent 60%),
+    radial-gradient(1100px 600px at 110% 110%, rgba(0,191,255,.08), transparent 60%),
     #0d0d0d;
 }
 #bg-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 #floaties{ position:absolute; inset:0; overflow:hidden; }
 
-/* Floating icons */
 .floaty{
   position:absolute; bottom:-40px;
   font-weight:700; color:rgba(232,232,240,.85);
@@ -50,8 +53,11 @@ a:hover{ text-decoration:underline; }
   100%{ transform: translate(var(--drift,0px), -115vh) rotate(12deg); opacity:0; font-size:18px; }
 }
 
-/* Put app content above background */
-.wrap{ position: relative; z-index: 1; max-width:980px; margin:0 auto; padding:24px; }
+.wrap{
+  position: relative;
+  z-index: 1;
+  max-width:980px; margin:0 auto; padding:24px;
+}
 
 /* ============= HEADER ============= */
 header{
@@ -60,14 +66,21 @@ header{
   padding:16px 0 6px 0; border-bottom:1px solid var(--border);
 }
 .logo{
-  width:44px; height:44px; border-radius:12px;
-  background: linear-gradient(180deg, #6f3288, #4a1f64);
-  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.06), var(--shadow);
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.logo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:8px;
 }
 h1{ font-size:1.6rem; margin:0; color:#fafbff; }
 .subtitle{ color:var(--muted); margin-top:4px; font-size:.95rem; }
 
-/* Top-right "Powered by" */
 .powered{
   position:absolute; right:0; top:6px;
   display:flex; align-items:center; gap:8px;
@@ -91,6 +104,10 @@ h1{ font-size:1.6rem; margin:0; color:#fafbff; }
     var(--card);
   box-shadow: var(--shadow);
 }
+#startScreen.hero{
+  display:grid; place-items:center;
+  min-height:38vh;
+}
 .progress-rail{
   height:10px; background:#1a1a1a;
   border:1px solid var(--border); border-radius:999px; overflow:hidden;
@@ -110,10 +127,7 @@ button:active{ transform: translateY(1px); }
 .btn-accent{ background: linear-gradient(180deg, #00BFFF, #0284c7); }
 
 /* ============= CARD / QUESTION UI ============= */
-#startScreen.hero{
-  display:grid; place-items:center;
-  min-height:38vh;
-}
+#stage{ display:block; }
 .card{
   background: var(--card);
   border:1px solid var(--border);
