@@ -1,15 +1,17 @@
 /* =========================
-   QUIZ QUESTIONS (13) - updated
+   QUIZ QUESTIONS (global)
+   Φόρτωσε αυτό το αρχείο ΠΡΙΝ από το app.js
 ========================= */
 window.QUESTIONS = [
   // ---- ΣΥΜΠΛΗΡΩΣΗΣ ----
   {
     id: 1, type: "fill",
-    question: "Εντόπισε σελίδες «Ξέχασα τον κωδικό» που μπορεί να είναι εκτεθειμένες. (Google Dorking)",
+    question: "Εντόπισε σελίδες «Ξέχασα τον κωδικό» που μπορεί να είναι εκτεθειμένες.",
     blanks: "_____:forgot _____:example.com",
     answer: ["inurl site","inurl  site","inurl   site"],
     explanation: "inurl:forgot + site:example.com για περιορισμό στο domain."
   },
+
   // ---- ΠΟΛΛΑΠΛΗΣ ΕΠΙΛΟΓΗΣ ----
   {
     id: 2, type: "mcq",
@@ -23,44 +25,49 @@ window.QUESTIONS = [
     answer: "Ένδειξη πολλών αναφορών· χρειάζεται context.",
     explanation: "Υψηλό score = πολλά reports από χρήστες/διαχειριστές· θέλει επιπλέον ανάλυση."
   },
+
   {
     id: 3, type: "fill",
-    question: "Εντόπισε εμπιστευτικά PDF έγγραφα σε ένα website. (Google Dorking)",
+    question: "Εντόπισε εμπιστευτικά PDF έγγραφα σε ένα website.",
     blanks: "site:example.com filetype:_____ \"confidential\"",
     answer: ["pdf"],
     explanation: "filetype:pdf φιλτράρει τα αποτελέσματα σε PDF."
   },
+
   {
     id: 4, type: "mcq",
     question: "Ποια είναι η σωστή περιγραφή του τελεστή filetype:;",
     options: [
       "Βοηθά στον εντοπισμό συγκεκριμένου τύπου αρχείου.",
       "Φιλτράρει αποτελέσματα κατά επέκταση αρχείου.",
-      "Λειτουργεί σαν alias του inurl για ονόματα αρχείων (παράγει παρόμοια σύγχυση).",
-      "Εφαρμόζεται συχνά για να φιλτράρει αποτελέσματα κατά MIME type."
+      "Λειτουργεί ως alias του inurl.",
+      "Χρησιμοποιείται μόνο για εικόνες."
     ],
     answer: "Φιλτράρει αποτελέσματα κατά επέκταση αρχείου.",
-    explanation: "Το filetype: ζητά αποτελέσματα π.χ. PDF, XLSX όπως τα έχει indexάρει η Google — οι άλλες επιλογές μπερδεύουν με όρους/λειτουργίες που μοιάζουν αλλά δεν είναι ακριβείς."
+    explanation: "Το filetype: ζητά αποτελέσματα π.χ. PDF, XLSX όπως τα έχει indexάρει η Google."
   },
+
   {
     id: 5, type: "mcq",
     question: "Τι περιγράφει με ακρίβεια το EXIF metadata σε μια ψηφιακή φωτογραφία;",
     options: [
       "Αρχεία που βελτιώνουν ποιότητα εικόνας.",
       "Τεχνικά & περιγραφικά πεδία (timestamp/GPS).",
-      "Περιγράφει κυρίως τα οπτικά χαρακτηριστικά της εικόνας (παραπλανητικό/λάθος).",
+      "Μη διαθέσιμο σε κινητά τηλέφωνα.",
       "Σύστημα άδειας αναπαραγωγής εικόνας."
     ],
     answer: "Τεχνικά & περιγραφικά πεδία (timestamp/GPS).",
-    explanation: "EXIF = μεταδεδομένα χρόνου, ρυθμίσεων κάμερας και πιθανό GPS — η επιλογή με τα «οπτικά χαρακτηριστικά» είναι παραπλανητική αλλά λάθος."
+    explanation: "EXIF = μεταδεδομένα χρόνου, ρυθμίσεων κάμερας και πιθανό GPS."
   },
+
   {
     id: 6, type: "fill",
-    question: "Εντόπισε δημόσια αρχεία ρυθμίσεων Wi-Fi. (Google Dorking)",
+    question: "Εντόπισε δημόσια αρχεία ρυθμίσεων Wi-Fi.",
     blanks: "filetype:_____ intitle: settings _______",
     answer: ["config wifi","config  wifi","config   wifi"],
     explanation: "filetype:config + intitle:settings + λέξη-στόχος wifi."
   },
+
   {
     id: 7, type: "mcq",
     question: "Τι κάνει με ακρίβεια ο τελεστής site: στις αναζητήσεις Google;",
@@ -68,33 +75,36 @@ window.QUESTIONS = [
       "Περιορίζει αποτελέσματα σε συγκεκριμένο domain.",
       "Επιστρέφει μόνο αρχεία στο cache.",
       "Βρίσκει μόνο σελίδες με φόρμες.",
-      "Επιτρέπει εστιασμένη αναζήτηση και σε υποτομείς/παραμέτρους (περίπλοκη αλλά παραπλανητική)."
+      "Είναι ειδικός για εικόνες."
     ],
     answer: "Περιορίζει αποτελέσματα σε συγκεκριμένο domain.",
-    explanation: "site: περιορίζει σε domain/subdomains· οι άλλες επιλογές είναι λανθασμένες ή μπερδεύουν με συμπληρωματικές δυνατότητες."
+    explanation: "site: περιορίζει σε domain/subdomains."
   },
+
   {
     id: 8, type: "mcq",
     question: "Ποιος είναι ο πιο ασφαλής τρόπος να χρησιμοποιήσεις ένα LLM στο OSINT workflow;",
     options: [
-      "Να γράφει αυτοματοποιημένα phishing emails για δοκιμές/σενάρια.",
+      "Να γράφει αυτοματοποιημένα phishing emails.",
       "Να συνοψίζει ευρήματα και να προτείνει άμυνες.",
-      "Να δημιουργεί exploits και scripts εισβολής για αποδοτικότητα.",
-      "Να αυτοματοποιεί scanning και IP enumeration."
+      "Να δημιουργεί exploits και scripts εισβολής.",
+      "Να κάνει απευθείας scanning και IP lists."
     ],
     answer: "Να συνοψίζει ευρήματα και να προτείνει άμυνες.",
     explanation: "Χρήση για ανάλυση/triage/προτάσεις remediation — όχι επιθετικές ενέργειες."
   },
+
   {
     id: 9, type: "fill",
-    question: "Εντόπισε σελίδες σύνδεσης (login) που μπορεί να είναι εκτεθειμένες. (Google Dorking)",
+    question: "Εντόπισε σελίδες σύνδεσης (login) που μπορεί να είναι εκτεθειμένες.",
     blanks: "inurl: admin _____",
     answer: ["login"],
     explanation: "Συνδυασμός admin + login σε URL paths."
   },
+
   {
     id: 10, type: "mcq",
-    question: "Τι χρήσιμο συμπέρασμα παίρνεις από ένα email που εμφανίζεται σε μια υπηρεσία διαρροών όπως το Have I Been Pwned (HIBP);",
+    question: "Τι χρήσιμο συμπέρασμα παίρνεις από ένα email που εμφανίζεται στο HIBP;",
     options: [
       "Δείχνει αν email εμφανίστηκε σε διαρροές.",
       "Δίνει τον τρέχοντα κωδικό χρήστη.",
@@ -102,10 +112,10 @@ window.QUESTIONS = [
       "Διαγράφει δεδομένα από βάσεις."
     ],
     answer: "Δείχνει αν email εμφανίστηκε σε διαρροές.",
-    explanation: "Το HIBP (Have I Been Pwned) συγκεντρώνει δεδομένα από διαρροές — αν ένα email βρεθεί εκεί, είναι σήμα να αλλάξεις κωδικούς και να ενεργοποιήσεις MFA."
+    explanation: "Σήμα για αλλαγή κωδικών και ενεργοποίηση MFA."
   },
 
-  
+  // ---- 11–13 ----
   {
     id: 11, type: "fill",
     question: "Σε ποια πόλη τραβήχτηκε αυτή η φωτογραφία;",
@@ -117,6 +127,7 @@ window.QUESTIONS = [
       link: "https://drive.google.com/file/d/1FfKGW9QZOSSsXIr3DcDmi2gAy5KTUb3m/view?usp=sharing"
     }
   },
+
   {
     id: 12, type: "fill",
     question: "Βρες τον ιδιοκτήτη του domain opensource.org.",
@@ -129,6 +140,7 @@ window.QUESTIONS = [
     ],
     explanation: "Σωστή απάντηση: Open Source Initiative"
   },
+
   {
     id: 13, type: "mcq",
     question: "The Double Agent — Αναλύοντας το ίχνος του υπόπτου (δες τις εικόνες πριν απαντήσεις).",
@@ -140,10 +152,6 @@ window.QUESTIONS = [
       img: "images/q3.png",
       alt: "",
       link: "https://drive.google.com/drive/folders/1461UT6-E3bcxr5KBsjixqzGrw3MoLKgD?usp=sharing"
-    },
-    
-
+    }
   }
 ];
-
-
